@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teia da Redação</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>🕸️ Teia da Redação</h1>
+  <p>Palavras → relações → ideias → redação</p>
+</header>
+
+<main class="container">
+
+  <!-- INÍCIO -->
+  <section id="inicio" class="card">
+
+    <h2>Comece sua Teia</h2>
+
+    <label for="tema1">Tema principal</label>
+    <input
+      type="text"
+      id="tema1"
+      placeholder="Ex.: Conhecimento"
+    >
+
+    <label for="tema2">Segundo tema (opcional)</label>
+    <input
+      type="text"
+      id="tema2"
+      placeholder="Ex.: Educação"
+    >
+
+    <button onclick="comecarTeia()">
+      COMEÇAR TEIA
+    </button>
+
+  </section>
+
+
+  <!-- TEIA -->
+  <section id="areaTeia" class="card">
+
+    <div class="topo">
+      <div>
+        <h2>Construindo sua Teia</h2>
+        <p>Escolha uma palavra para continuar.</p>
+      </div>
+    </div>
+
+    <div id="caminho"></div>
+
+    <div id="sugestoesIA"></div>
+
+    <div id="web"></div>
+
+    <div class="botoes">
+      <button class="secundario" onclick="desfazerUltima()">
+        ← Desfazer
+      </button>
+
+      <button onclick="terminarTeia()">
+        CONTINUAR PARA REDAÇÃO →
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- REDAÇÃO -->
+  <section id="areaRedacao" class="card">
+
+    <h2>📝 Sua Redação</h2>
+
+    <div id="resumoCaminho"></div>
+
+    <textarea
+      id="redacao"
+      placeholder="Agora escreva sua redação usando as ideias da sua Teia..."
+    ></textarea>
+
+    <div class="botoes">
+      <button class="secundario" onclick="voltarTeia()">
+        ← Voltar para Teia
+      </button>
+
+      <button onclick="revisarTexto()">
+        Revisar pontuação
+      </button>
+
+      <button onclick="salvarRedacao()">
+        Salvar redação
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- HISTÓRICO -->
+  <section id="historico" class="card">
+
+    <h2>📚 Minhas redações</h2>
+
+    <div id="listaHistorico"></div>
+
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
