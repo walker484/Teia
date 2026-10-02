@@ -1,1 +1,1340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Teia da Redação</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>🕸️ Teia da Redação</h1>
+  <p>Palavra → relações → ideias → redação</p>
+</header>
+
+<main class="container">
+
+  <!-- INÍCIO -->
+
+  <section id="inicio" class="card">
+
+    <h2>Começar uma redação</h2>
+
+    <label for="tema1">Tema ou palavra principal</label>
+
+    <input
+      id="tema1"
+      type="text"
+      placeholder="Ex.: conhecimento"
+    >
+
+    <label for="tema2">Segundo tema — opcional</label>
+
+    <input
+      id="tema2"
+      type="text"
+      placeholder="Digite outro tema"
+    >
+
+    <button
+      class="btn-primary"
+      onclick="comecarTeia()"
+    >
+      🕸️ COMEÇAR TEIA
+    </button>
+
+    <p class="explicacao">
+      A IA não fará a redação por você.
+      Ela vai ajudar a encontrar relações entre as palavras.
+    </p>
+
+  </section>
+
+
+  <!-- TEIA -->
+
+  <section id="areaTeia" class="card hidden">
+
+    <div class="topo-teia">
+
+      <div>
+        <h2>Construindo sua Teia</h2>
+
+        <p>
+          Escolha uma palavra para continuar.
+        </p>
+      </div>
+
+      <button
+        class="btn-secondary"
+        onclick="voltarInicio()"
+      >
+        ← Novo tema
+      </button>
+
+    </div>
+
+
+    <!-- CAMINHO -->
+
+    <div class="caminho-box">
+
+      <strong>Seu caminho:</strong>
+
+      <div
+        id="caminho"
+        class="caminho"
+      >
+        —
+      </div>
+
+    </div>
+
+
+    <!-- SUGESTÕES -->
+
+    <div class="sugestoes-box">
+
+      <h3>💡 Escolha uma relação</h3>
+
+      <div
+        id="sugestoesIA"
+        class="sugestoes"
+      ></div>
+
+      <div
+        id="carregando"
+        class="carregando hidden"
+      >
+        A IA está procurando relações...
+      </div>
+
+      <div
+        id="erroIA"
+        class="erro hidden"
+      ></div>
+
+    </div>
+
+
+    <!-- VISUAL DA TEIA -->
+
+    <div class="web-container">
+
+      <div
+        id="web"
+        class="web"
+      ></div>
+
+    </div>
+
+
+    <div class="acoes-teia">
+
+      <button
+        class="btn-secondary"
+        onclick="desfazerUltima()"
+      >
+        ← Voltar palavra
+      </button>
+
+      <button
+        class="btn-primary"
+        onclick="terminarTeia()"
+      >
+        Continuar para redação →
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- REDAÇÃO -->
+
+  <section id="areaRedacao" class="card hidden">
+
+    <h2>✍️ Construindo sua redação</h2>
+
+    <p>
+      Agora use as ideias que você escolheu na Teia.
+    </p>
+
+
+    <div class="resumo-teia">
+
+      <h3>Suas ideias</h3>
+
+      <div id="resumoCaminho"></div>
+
+    </div>
+
+
+    <label for="redacao">
+      Escreva sua redação
+    </label>
+
+    <textarea
+      id="redacao"
+      placeholder="Comece a escrever aqui..."
+    ></textarea>
+
+
+    <div class="acoes-redacao">
+
+      <button
+        class="btn-secondary"
+        onclick="voltarTeia()"
+      >
+        ← Voltar para Teia
+      </button>
+
+      <button
+        class="btn-green"
+        onclick="revisarTexto()"
+      >
+        Revisar texto
+      </button>
+
+      <button
+        class="btn-primary"
+        onclick="salvarRedacao()"
+      >
+        💾 Salvar redação
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- HISTÓRICO -->
+
+  <section class="card">
+
+    <h2>📚 Minhas redações</h2>
+
+    <div id="historico">
+      Nenhuma redação salva ainda.
+    </div>
+
+  </section>
+
+</main>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+Agora o "style.css":
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #dfe5ea;
+  color: #17212b;
+}
+
+header {
+  background: #0d1b2a;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 25px;
+}
+
+header p {
+  margin: 7px 0 0;
+  opacity: .8;
+}
+
+.container {
+  width: 95%;
+  max-width: 1100px;
+  margin: 20px auto;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.08);
+}
+
+.hidden {
+  display: none !important;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccd3da;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top: 7px;
+}
+
+textarea {
+  min-height: 350px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.btn-primary {
+  background: #0d1b2a;
+  color: white;
+}
+
+.btn-secondary {
+  background: #e8edf2;
+  color: #17212b;
+}
+
+.btn-green {
+  background: #198754;
+  color: white;
+}
+
+.explicacao {
+  color: #667;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+
+/* TOPO */
+
+.topo-teia {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+
+/* CAMINHO */
+
+.caminho-box {
+  background: #f3f5f7;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.caminho {
+  margin-top: 10px;
+  font-weight: bold;
+  line-height: 1.8;
+}
+
+
+/* SUGESTÕES */
+
+.sugestoes-box {
+  margin-top: 20px;
+}
+
+.sugestoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sugestao {
+  background: white;
+  border: 2px solid #0d1b2a;
+  border-radius: 30px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sugestao:hover {
+  background: #0d1b2a;
+  color: white;
+}
+
+.carregando {
+  padding: 15px;
+  color: #667;
+}
+
+.erro {
+  padding: 12px;
+  border-radius: 10px;
+  background: #f8d7da;
+  color: #842029;
+}
+
+
+/* TEIA */
+
+.web-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 25px;
+  padding: 20px;
+}
+
+.web {
+  position: relative;
+  min-width: 900px;
+  min-height: 420px;
+}
+
+.node {
+  position: absolute;
+  background: white;
+  border: 3px solid #0d1b2a;
+  border-radius: 50%;
+  min-width: 120px;
+  min-height: 75px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  z-index: 2;
+}
+
+.node.root {
+  background: #0d1b2a;
+  color: white;
+}
+
+.line {
+  position: absolute;
+  height: 3px;
+  background: #718096;
+  transform-origin: left center;
+  z-index: 1;
+}
+
+
+/* REDAÇÃO */
+
+.resumo-teia {
+  background: #f3f5f7;
+  padding: 15px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.resumo-palavra {
+  display: inline-block;
+  background: white;
+  border: 1px solid #ccd3da;
+  border-radius: 20px;
+  padding: 8px 12px;
+  margin: 4px;
+}
+
+
+/* HISTÓRICO */
+
+.history-item {
+  background: #f3f5f7;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.history-item strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.small {
+  font-size: 13px;
+  color: #667;
+}
+
+@media (max-width: 600px) {
+
+  .container {
+    width: 96%;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  header h1 {
+    font-size: 21px;
+  }
+
+  .web {
+    min-width: 850px;
+  }
+
+  .node {
+    min-width: 100px;
+    font-size: 14px;
+  }
+
+}
+
+E o "script.js":
+
+let temaPrincipal = "";
+let segundoTema = "";
+
+let caminhoIA = [];
+
+let posicoes = [];
+
+let contadorNo = 0;
+
+
+/* ================================
+   COMEÇAR
+================================ */
+
+function comecarTeia() {
+
+  temaPrincipal =
+    document.getElementById("tema1")
+      .value
+      .trim();
+
+  segundoTema =
+    document.getElementById("tema2")
+      .value
+      .trim();
+
+  if (!temaPrincipal) {
+
+    alert("Digite uma palavra ou tema.");
+
+    return;
+  }
+
+  caminhoIA = [
+    temaPrincipal
+  ];
+
+  if (segundoTema) {
+    caminhoIA.push(segundoTema);
+  }
+
+  document
+    .getElementById("inicio")
+    .classList.add("hidden");
+
+  document
+    .getElementById("areaTeia")
+    .classList.remove("hidden");
+
+  atualizarCaminho();
+
+  montarNoInicial();
+
+  consultarIA(temaPrincipal);
+}
+
+
+/* ================================
+   CONSULTAR IA
+================================ */
+
+async function consultarIA(palavra) {
+
+  const sugestoes =
+    document.getElementById("sugestoesIA");
+
+  const carregando =
+    document.getElementById("carregando");
+
+  const erro =
+    document.getElementById("erroIA");
+
+  sugestoes.innerHTML = "";
+
+  erro.classList.add("hidden");
+
+  carregando.classList.remove("hidden");
+
+  try {
+
+    const resposta = await fetch(
+      "/api/teia",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+          palavra: palavra,
+
+          caminho: caminhoIA
+
+        })
+      }
+    );
+
+    if (!resposta.ok) {
+      throw new Error(
+        "Erro ao consultar a IA."
+      );
+    }
+
+    const dados =
+      await resposta.json();
+
+    mostrarSugestoes(
+      dados.relacoes || []
+    );
+
+  } catch (erroInterno) {
+
+    console.error(erroInterno);
+
+    erro.textContent =
+      "Não foi possível consultar a IA. Verifique a API.";
+
+    erro.classList.remove("hidden");
+
+  } finally {
+
+    carregando.classList.add("hidden");
+
+  }
+
+}
+
+
+/* ================================
+   MOSTRAR SUGESTÕES
+================================ */
+
+function mostrarSugestoes(relacoes) {
+
+  const area =
+    document.getElementById(
+      "sugestoesIA"
+    );
+
+  area.innerHTML = "";
+
+  if (!relacoes.length) {
+
+    area.innerHTML =
+      "<p>Nenhuma relação encontrada.</p>";
+
+    return;
+  }
+
+  relacoes.forEach(
+    palavra => {
+
+      const botao =
+        document.createElement("button");
+
+      botao.className =
+        "sugestao";
+
+      botao.textContent =
+        palavra;
+
+      botao.onclick = () =>
+        escolherPalavra(palavra);
+
+      area.appendChild(botao);
+
+    }
+  );
+
+}
+
+
+/* ================================
+   ESCOLHER PALAVRA
+================================ */
+
+function escolherPalavra(palavra) {
+
+  if (
+    caminhoIA
+      .map(x => x.toLowerCase())
+      .includes(
+        palavra.toLowerCase()
+      )
+  ) {
+
+    return;
+  }
+
+  caminhoIA.push(palavra);
+
+  adicionarNoTeia(palavra);
+
+  atualizarCaminho();
+
+  consultarIA(palavra);
+}
+
+
+/* ================================
+   CAMINHO
+================================ */
+
+function atualizarCaminho() {
+
+  const area =
+    document.getElementById(
+      "caminho"
+    );
+
+  area.textContent =
+    caminhoIA.join(" → ");
+
+}
+
+
+/* ================================
+   PRIMEIRO NÓ
+================================ */
+
+function montarNoInicial() {
+
+  const web =
+    document.getElementById("web");
+
+  web.innerHTML = "";
+
+  contadorNo = 0;
+
+  posicoes = [];
+
+  criarNoVisual(
+    temaPrincipal,
+    40,
+    170,
+    true
+  );
+
+}
+
+
+/* ================================
+   ADICIONAR NÓ
+================================ */
+
+function adicionarNoTeia(palavra) {
+
+  contadorNo++;
+
+  const coluna =
+    Math.floor(
+      contadorNo / 3
+    );
+
+  const linha =
+    contadorNo % 3;
+
+  const x =
+    250 + coluna * 220;
+
+  const y =
+    70 + linha * 130;
+
+  criarNoVisual(
+    palavra,
+    x,
+    y,
+    false
+  );
+
+}
+
+
+/* ================================
+   CRIAR NÓ
+================================ */
+
+function criarNoVisual(
+  texto,
+  x,
+  y,
+  principal
+) {
+
+  const web =
+    document.getElementById("web");
+
+  const node =
+    document.createElement("div");
+
+  node.className =
+    "node";
+
+  if (principal) {
+    node.classList.add("root");
+  }
+
+  node.textContent =
+    texto;
+
+  node.style.left =
+    x + "px";
+
+  node.style.top =
+    y + "px";
+
+  web.appendChild(node);
+
+  posicoes.push({
+    x,
+    y,
+    width: 120,
+    height: 75
+  });
+
+  if (posicoes.length > 1) {
+
+    const anterior =
+      posicoes[
+        posicoes.length - 2
+      ];
+
+    criarLinha(
+      web,
+      anterior.x + 120,
+      anterior.y + 37,
+      x,
+      y + 37
+    );
+
+  }
+
+}
+
+
+/* ================================
+   LINHA
+================================ */
+
+function criarLinha(
+  container,
+  x1,
+  y1,
+  x2,
+  y2
+) {
+
+  const linha =
+    document.createElement("div");
+
+  linha.className =
+    "line";
+
+  const dx =
+    x2 - x1;
+
+  const dy =
+    y2 - y1;
+
+  const distancia =
+    Math.sqrt(
+      dx * dx +
+      dy * dy
+    );
+
+  const angulo =
+    Math.atan2(dy, dx)
+    * 180 / Math.PI;
+
+  linha.style.left =
+    x1 + "px";
+
+  linha.style.top =
+    y1 + "px";
+
+  linha.style.width =
+    distancia + "px";
+
+  linha.style.transform =
+    `rotate(${angulo}deg)`;
+
+  container.appendChild(
+    linha
+  );
+
+}
+
+
+/* ================================
+   DESFAZER
+================================ */
+
+function desfazerUltima() {
+
+  if (
+    caminhoIA.length <= 1
+  ) {
+    return;
+  }
+
+  caminhoIA.pop();
+
+  const web =
+    document.getElementById("web");
+
+  web.innerHTML = "";
+
+  contadorNo = 0;
+
+  posicoes = [];
+
+  montarNoInicial();
+
+  caminhoIA
+    .slice(1)
+    .forEach(
+      palavra => {
+        adicionarNoTeia(palavra);
+      }
+    );
+
+  atualizarCaminho();
+
+  const ultima =
+    caminhoIA[
+      caminhoIA.length - 1
+    ];
+
+  consultarIA(ultima);
+
+}
+
+
+/* ================================
+   TERMINAR TEIA
+================================ */
+
+function terminarTeia() {
+
+  if (caminhoIA.length < 2) {
+
+    alert(
+      "Escolha pelo menos uma relação para continuar."
+    );
+
+    return;
+  }
+
+  document
+    .getElementById("areaTeia")
+    .classList.add("hidden");
+
+  document
+    .getElementById("areaRedacao")
+    .classList.remove("hidden");
+
+  mostrarResumo();
+
+}
+
+
+/* ================================
+   RESUMO
+================================ */
+
+function mostrarResumo() {
+
+  const area =
+    document.getElementById(
+      "resumoCaminho"
+    );
+
+  area.innerHTML = "";
+
+  caminhoIA.forEach(
+    palavra => {
+
+      const span =
+        document.createElement("span");
+
+      span.className =
+        "resumo-palavra";
+
+      span.textContent =
+        palavra;
+
+      area.appendChild(span);
+
+    }
+  );
+
+}
+
+
+/* ================================
+   VOLTAR PARA TEIA
+================================ */
+
+function voltarTeia() {
+
+  document
+    .getElementById("areaRedacao")
+    .classList.add("hidden");
+
+  document
+    .getElementById("areaTeia")
+    .classList.remove("hidden");
+
+}
+
+
+/* ================================
+   NOVO TEMA
+================================ */
+
+function voltarInicio() {
+
+  document
+    .getElementById("areaTeia")
+    .classList.add("hidden");
+
+  document
+    .getElementById("areaRedacao")
+    .classList.add("hidden");
+
+  document
+    .getElementById("inicio")
+    .classList.remove("hidden");
+
+}
+
+
+/* ================================
+   REVISÃO BÁSICA
+================================ */
+
+function revisarTexto() {
+
+  let texto =
+    document
+      .getElementById("redacao")
+      .value;
+
+  texto =
+    texto.replace(
+      /\s+/g,
+      " "
+    );
+
+  texto =
+    texto.replace(
+      /\s+([,.!?;:])/g,
+      "$1"
+    );
+
+  texto =
+    texto.replace(
+      /([,.!?;:])([^\s])/g,
+      "$1 $2"
+    );
+
+  texto =
+    texto.trim();
+
+  if (texto) {
+
+    texto =
+      texto.charAt(0)
+      .toUpperCase() +
+      texto.slice(1);
+
+  }
+
+  document
+    .getElementById("redacao")
+    .value =
+    texto;
+
+}
+
+
+/* ================================
+   SALVAR
+================================ */
+
+function salvarRedacao() {
+
+  const texto =
+    document
+      .getElementById("redacao")
+      .value
+      .trim();
+
+  if (!texto) {
+
+    alert(
+      "Escreva sua redação primeiro."
+    );
+
+    return;
+  }
+
+  const historico =
+    JSON.parse(
+      localStorage.getItem(
+        "teia_redacoes"
+      ) || "[]"
+    );
+
+  historico.unshift({
+
+    data:
+      new Date().toLocaleString(
+        "pt-BR"
+      ),
+
+    tema:
+      temaPrincipal,
+
+    caminho:
+      caminhoIA,
+
+    redacao:
+      texto
+
+  });
+
+  localStorage.setItem(
+    "teia_redacoes",
+    JSON.stringify(
+      historico
+    )
+  );
+
+  carregarHistorico();
+
+  alert(
+    "Redação salva."
+  );
+
+}
+
+
+/* ================================
+   HISTÓRICO
+================================ */
+
+function carregarHistorico() {
+
+  const historico =
+    JSON.parse(
+      localStorage.getItem(
+        "teia_redacoes"
+      ) || "[]"
+    );
+
+  const area =
+    document.getElementById(
+      "historico"
+    );
+
+  if (!historico.length) {
+
+    area.textContent =
+      "Nenhuma redação salva ainda.";
+
+    return;
+  }
+
+  area.innerHTML = "";
+
+  historico.forEach(
+    (item, index) => {
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+      div.className =
+        "history-item";
+
+      div.innerHTML = `
+        <strong>${escaparHTML(item.tema)}</strong>
+
+        <div class="small">
+          ${escaparHTML(item.data)}
+        </div>
+
+        <p>
+          ${escaparHTML(
+            item.redacao.substring(0, 180)
+          )}...
+        </p>
+
+        <button
+          class="btn-secondary"
+          onclick="verRedacao(${index})"
+        >
+          Ver
+        </button>
+
+        <button
+          class="btn-secondary"
+          onclick="excluirRedacao(${index})"
+        >
+          Excluir
+        </button>
+      `;
+
+      area.appendChild(div);
+
+    }
+  );
+
+}
+
+
+/* ================================
+   VER REDAÇÃO
+================================ */
+
+function verRedacao(index) {
+
+  const historico =
+    JSON.parse(
+      localStorage.getItem(
+        "teia_redacoes"
+      ) || "[]"
+    );
+
+  const item =
+    historico[index];
+
+  if (!item) return;
+
+  temaPrincipal =
+    item.tema;
+
+  caminhoIA =
+    item.caminho || [];
+
+  document
+    .getElementById("inicio")
+    .classList.add("hidden");
+
+  document
+    .getElementById("areaTeia")
+    .classList.add("hidden");
+
+  document
+    .getElementById("areaRedacao")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("redacao")
+    .value =
+    item.redacao;
+
+  mostrarResumo();
+
+}
+
+
+/* ================================
+   EXCLUIR
+================================ */
+
+function excluirRedacao(index) {
+
+  if (
+    !confirm(
+      "Excluir esta redação?"
+    )
+  ) {
+    return;
+  }
+
+  const historico =
+    JSON.parse(
+      localStorage.getItem(
+        "teia_redacoes"
+      ) || "[]"
+    );
+
+  historico.splice(
+    index,
+    1
+  );
+
+  localStorage.setItem(
+    "teia_redacoes",
+    JSON.stringify(
+      historico
+    )
+  );
+
+  carregarHistorico();
+
+}
+
+
+/* ================================
+   SEGURANÇA
+================================ */
+
+function escaparHTML(texto) {
+
+  return String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* ================================
+   INICIAR
+================================ */
+
+carregarHistorico();
+
+Importante: esse código já prepara a interface para a IA, mas a chamada "/api/teia" só funcionará quando o "server.js" estiver rodando em um servidor. A próxima etapa é colocar esse backend em um serviço como o Render e conectar a chave da API de forma segura.
