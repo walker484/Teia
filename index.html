@@ -1,117 +1,232 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt‑BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teia da Redação</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF‑8">
+  <meta name="viewport" content="width=device‑width, initial‑scale=1.0">
+  <title>🕸️ Teia de Ideias — Palavras → Frases → Redação</title>
+  <style>
+    * { box-sizing: border‑box; font-family: Arial, sans‑serif; margin:0; padding:0; }
+    body { background:#f0f4f8; padding:16px; }
+    header { text‑align:center; margin‑bottom:20px; }
+    .container { max‑width:740px; margin:0 auto; }
+    .card { background:#fff; padding:18px; border‑radius:12px; margin‑bottom:14px; box‑shadow:0 2px 6px #0000001a; }
+    input { width:100%; padding:10px; margin:8px 0 14px; border:1px solid #ccc; border‑radius:8px; font‑size:16px; }
+    button { padding:10px 14px; border:none; border‑radius:8px; background:#2b6cb0; color:#fff; font‑size:15px; cursor:pointer; margin:4px; }
+    button.secundario { background:#718096; }
+    #desenhoTeia { position:relative; height:340px; border:1px solid #cce5f5; background:#f7fbff; border‑radius:8px; overflow:hidden; }
+    .nodo { position:absolute; font‑size:14px; background:#d9f9d9; padding:5px 9px; border‑radius:6px; }
+    .linha { position:absolute; background:#446; height:2px; transform‑origin:left center; }
+    .bloco‑frase { background:#fff2cc; padding:8px; border‑radius:6px; margin:6px 0; }
+    #etapa2,#etapa3,#etapa4,#etapaFrases,#etapaFinal { display:none; }
+    .texto‑final { white‑space:pre‑line; line‑height:1.7; }
+  </style>
 </head>
-
 <body>
-
 <header>
-  <h1>🕸️ Teia da Redação</h1>
-  <p>Palavras → relações → ideias → redação</p>
+  <h1>🕸️ Teia de Ideias</h1>
+  <p>3 temas → palavras → frases → redação</p>
 </header>
-
 <main class="container">
-
-  <!-- INÍCIO -->
-  <section id="inicio" class="card">
-
-    <h2>Comece sua Teia</h2>
-
-    <label for="tema1">Tema principal</label>
-    <input
-      type="text"
-      id="tema1"
-      placeholder="Ex.: Conhecimento"
-    >
-
-    <label for="tema2">Segundo tema (opcional)</label>
-    <input
-      type="text"
-      id="tema2"
-      placeholder="Ex.: Educação"
-    >
-
-    <button onclick="comecarTeia()">
-      COMEÇAR TEIA
-    </button>
-
+  <section class="card">
+    <h2>📚 Biblioteca de palavras</h2>
+    <input type="text" id="novaPalavra" placeholder="Adicione palavra‑ideia">
+    <button onclick="adicionarNaBiblioteca()">Adicionar</button>
+    <div id="listaBiblioteca"></div>
   </section>
 
-
-  <!-- TEIA -->
-  <section id="areaTeia" class="card">
-
-    <div class="topo">
-      <div>
-        <h2>Construindo sua Teia</h2>
-        <p>Escolha uma palavra para continuar.</p>
-      </div>
-    </div>
-
-    <div id="caminho"></div>
-
-    <div id="sugestoesIA"></div>
-
-    <div id="web"></div>
-
-    <div class="botoes">
-      <button class="secundario" onclick="desfazerUltima()">
-        ← Desfazer
-      </button>
-
-      <button onclick="terminarTeia()">
-        CONTINUAR PARA REDAÇÃO →
-      </button>
-    </div>
-
+  <section class="card" id="etapa1">
+    <h2>🔹 Digite até 3 temas principais</h2>
+    <input type="text" id="t1" placeholder="Tema 1">
+    <input type="text" id="t2" placeholder="Tema 2">
+    <input type="text" id="t3" placeholder="Tema 3">
+    <button onclick="iniciarTeia()">COMEÇAR</button>
   </section>
 
-
-  <!-- REDAÇÃO -->
-  <section id="areaRedacao" class="card">
-
-    <h2>📝 Sua Redação</h2>
-
-    <div id="resumoCaminho"></div>
-
-    <textarea
-      id="redacao"
-      placeholder="Agora escreva sua redação usando as ideias da sua Teia..."
-    ></textarea>
-
-    <div class="botoes">
-      <button class="secundario" onclick="voltarTeia()">
-        ← Voltar para Teia
-      </button>
-
-      <button onclick="revisarTexto()">
-        Revisar pontuação
-      </button>
-
-      <button onclick="salvarRedacao()">
-        Salvar redação
-      </button>
-    </div>
-
+  <section class="card" id="etapa2">
+    <h2>🔹 Passo 1 — 3 palavras‑chave</h2>
+    <div id="desenhoTeia"></div>
+    <button onclick="proximoEtapa()">PRÓXIMO → mais palavras</button>
   </section>
 
-
-  <!-- HISTÓRICO -->
-  <section id="historico" class="card">
-
-    <h2>📚 Minhas redações</h2>
-
-    <div id="listaHistorico"></div>
-
+  <section class="card" id="etapa3">
+    <h2>🔹 Passo 2 — 7 palavras‑ideia</h2>
+    <div id="desenhoTeia2"></div>
+    <button onclick="proximoEtapa2()">PRÓXIMO → mais detalhes</button>
   </section>
 
+  <section class="card" id="etapa4">
+    <h2>🔹 Passo 3 — 16 palavras detalhadas</h2>
+    <div id="desenhoTeia3"></div>
+    <button onclick="irParaFrases()">PRÓXIMO → transformar em frases</button>
+  </section>
+
+  <section class="card" id="etapaFrases">
+    <h2>🔹 Palavras viram frases</h2>
+    <div id="listaFrases"></div>
+    <button onclick="gerarRedacao()">GERAR REDAÇÃO COMPLETA</button>
+  </section>
+
+  <section class="card" id="etapaFinal">
+    <h2>📄 Redação pronta</h2>
+    <div class="texto‑final" id="textoFinal"></div>
+    <button class="secundario" onclick="reiniciar()">NOVA TEIA</button>
+  </section>
 </main>
 
-<script src="script.js"></script>
+<script>
+let biblioteca = JSON.parse(localStorage.getItem("biblioTeia") ||
+  '["conhecimento","aprendizado","estudo","saber","vida","saúde","cuidado","crescimento","clima","natureza","chuva","sol","temperatura","meio‑ambiente","futuro","cidadania"]');
+let temas = [];
+let p3=[],p7=[],p16=[];
+let frases = [];
 
+function atualizarBiblio() {
+  const div=document.getElementById("listaBiblioteca");
+  div.innerHTML=biblioteca.map(x=>`<span style="background:#d9f9d9;padding:4px 8px;border‑radius:6px;margin:3px;display:inline‑block">${x}</span>`).join(" ");
+  localStorage.setItem("biblioTeia",JSON.stringify(biblioteca));
+}
+function adicionarNaBiblioteca(){
+  const txt=document.getElementById("novaPalavra").value.trim().toLowerCase();
+  if(!txt)return;
+  if(!biblioteca.includes(txt))biblioteca.push(txt);
+  document.getElementById("novaPalavra").value=""; atualizarBiblio();
+}
+function sortear(qtd){
+  return [...biblioteca].sort(()=>Math.random()-0.5).slice(0,qtd);
+}
+function iniciarTeia(){
+  const t1=document.getElementById("t1").value.trim();
+  const t2=document.getElementById("t2").value.trim();
+  const t3=document.getElementById("t3").value.trim();
+  temas=[t1,t2,t3].filter(x=>x);
+  if(temas.length===0)return alert("Digite pelo menos um tema!");
+  p3=sortear(3);
+  document.getElementById("etapa1").style.display="none";
+  document.getElementById("etapa2").style.display="block";
+  desenharEtapa1();
+}
+function desenharEtapa1(){
+  const canvas=document.getElementById("desenhoTeia");
+  canvas.innerHTML="";
+  temas.forEach((t,i)=>{
+    const nodo=document.createElement("div");
+    nodo.className="nodo"; nodo.innerText=t;
+    nodo.style.left="15px"; nodo.style.top=(50+i*90)+"px";
+    canvas.appendChild(nodo);
+  });
+  p3.forEach((pal,i)=>{
+    const nodo=document.createElement("div");
+    nodo.className="nodo"; nodo.innerText=pal;
+    nodo.style.left="230px"; nodo.style.top=(65+i*75)+"px";
+    canvas.appendChild(nodo);
+    const linha=document.createElement("div");
+    linha.className="linha";
+    linha.style.left="60px"; linha.style.top=(65+i*75)+"px";
+    linha.style.width="160px";
+    canvas.appendChild(linha);
+  });
+}
+function proximoEtapa(){
+  p7=sortear(7);
+  document.getElementById("etapa2").style.display="none";
+  document.getElementById("etapa3").style.display="block";
+  desenharEtapa2();
+}
+function desenharEtapa2(){
+  const canvas=document.getElementById("desenhoTeia2");
+  canvas.innerHTML="";
+  temas.forEach((t,i)=>{
+    const nodo=document.createElement("div");
+    nodo.className="nodo"; nodo.innerText=t;
+    nodo.style.left="15px"; nodo.style.top=(40+i*85)+"px";
+    canvas.appendChild(nodo);
+  });
+  p7.forEach((pal,i)=>{
+    const nodo=document.createElement("div");
+    nodo.className="nodo"; nodo.innerText=pal;
+    nodo.style.left="190px"; nodo.style.top=(30+i*42)+"px";
+    canvas.appendChild(nodo);
+    const linha=document.createElement("div");
+    linha.className="linha";
+    linha.style.left="60px"; linha.style.top=(30+i*42)+"px";
+    linha.style.width="125px";
+    canvas.appendChild(linha);
+  });
+}
+function proximoEtapa2(){
+  p16=sortear(16);
+  document.getElementById("etapa3").style.display="none";
+  document.getElementById("etapa4").style.display="block";
+  desenharEtapa3();
+}
+function desenharEtapa3(){
+  const canvas=document.getElementById("desenhoTeia3");
+  canvas.innerHTML="";
+  temas.forEach((t,i)=>{
+    const nodo=document.createElement("div");
+    nodo.className="nodo"; nodo.innerText=t;
+    nodo.style.left="15px"; nodo.style.top=(30+i*80)+"px";
+    canvas.appendChild(nodo);
+  });
+  p16.forEach((pal,i)=>{
+    const nodo=document.createElement("div");
+    nodo.className="nodo"; nodo.innerText=pal;
+    nodo.style.left="170px"; nodo.style.top=(15+i*20)+"px";
+    canvas.appendChild(nodo);
+    const linha=document.createElement("div");
+    linha.className="linha";
+    linha.style.left="60px"; linha.style.top=(15+i*20)+"px";
+    linha.style.width="105px";
+    canvas.appendChild(linha);
+  });
+}
+function irParaFrases(){
+  // Transformar palavras em frases
+  frases = [
+    `Quando pensamos em ${temas[0]}, percebemos a importância de ${p3[0]}.`,
+    `Também aprendemos sobre ${p3[1]} e ${p3[2]} no nosso dia‑a‑dia.`,
+    `Podemos observar ${p7[0]}, ${p7[1]} e ${p7[2]} ao nosso redor.`,
+    `Outros pontos importantes são ${p7[3]}, ${p7[4]}, ${p7[5]} e ${p7[6]}.`,
+    `Entre os detalhes, temos ${p16[0]}, ${p16[1]}, ${p16[2]} e ${p16[3]}.`,
+    `Também contamos com ${p16[4]}, ${p16[5]}, ${p16[6]}, ${p16[7]}, ${p16[8]} e ${p16[9]}.`,
+    `Não podemos esquecer de ${p16[10]}, ${p16[11]}, ${p16[12]}, ${p16[13]}, ${p16[14]} e ${p16[15]}.`
+  ];
+  document.getElementById("etapa4").style.display="none";
+  document.getElementById("etapaFrases").style.display="block";
+  document.getElementById("listaFrases").innerHTML = frases.map(f=>`<div class="bloco‑frase">${f}</div>`).join("");
+}
+function gerarRedacao(){
+  document.getElementById("etapaFrases").style.display="none";
+  document.getElementById("etapaFinal").style.display="block";
+  const texto=`# ${temas.join(" · ")}
+
+${frases[0]}
+${frases[1]}
+
+${frases[2]}
+${frases[3]}
+
+${frases[4]}
+${frases[5]}
+${frases[6]}
+
+Os temas que escolhemos mostram como as ideias se conectam entre si.
+${temas[0]} nos ajuda a compreender melhor o mundo onde vivemos.
+${temas[1]||"As nossas ideias"} nos ensinam a valorizar cada momento.
+${temas[2]||"E o cuidado com o futuro"} nos motiva a agir bem todos os dias.
+Com essas ideias e frases, conseguimos montar um texto completo e organizado.
+`;
+  document.getElementById("textoFinal").innerText=texto;
+}
+function reiniciar(){
+  temas=[]; p3=[]; p7=[]; p16=[]; frases=[];
+  document.getElementById("t1").value="";
+  document.getElementById("t2").value="";
+  document.getElementById("t3").value="";
+  document.querySelectorAll(".card[id^='etapa']").forEach(el=>el.style.display="none");
+  document.getElementById("etapa1").style.display="block";
+}
+atualizarBiblio();
+</script>
 </body>
 </html>
